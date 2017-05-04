@@ -19,5 +19,5 @@ gcc cbpirate.c -o cbpirate -lpapi
 echo $no_of_ways
 echo $sizenum
 echo $no_of_sets
-LD_LIBRARY_PATH=/usr/local/lib ./cbpirate -s $sizenum -w $no_of_ways -n $no_of_sets \
+LD_LIBRARY_PATH=/usr/local/lib taskset -c 3 ./cbpirate -s $sizenum -w $no_of_ways -n $no_of_sets \
                                           -b $block_size
