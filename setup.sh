@@ -25,9 +25,10 @@ echo $no_of_ways
 echo $sizenum
 echo $no_of_sets
 LD_LIBRARY_PATH=/usr/local/lib taskset -c 2,3 ./cbpirate -s $sizenum -w $no_of_ways -n $no_of_sets \
+                                          -i 1000 \
                                           -f mm_bw.txt \
                                           -c 0,1 \
-                                          -b $block_size -t 1 \
+                                          -b $block_size -t 4 \
                                           sleep 100
 
 # sleep 1

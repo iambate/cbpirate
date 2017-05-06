@@ -25,7 +25,7 @@ int glb_no_of_ways, glb_no_of_sets, glb_nthreads=1, glb_pthread_exit_status;
 int glb_no_of_hot_ways, glb_chunk_size, glb_no_of_chunk_lines, glb_no_of_bw_req;
 int glb_total_events, *glb_events[2];
 size_t glb_cache_size, glb_block_size, glb_size_cache_hog;
-long glb_running_event_no, glb_bw_running_event_no;
+long glb_running_event_no, glb_bw_running_event_no, glb_interval;
 
 
 void bw_req(int no_of_bw_req, int no_warm_req){
@@ -36,7 +36,10 @@ void bw_req(int no_of_bw_req, int no_warm_req){
         new_no_req = no_warm_req;
     }
     for(int i=0; i< new_no_req;i++){
-        glb_mem_cache_hog[start_point*2*MB] = (char)i;
+#ifdef DEBUGVV
+        printf("In bw req, storing at %p\n", &glb_mem_cache_hog[start_point*2*MB]);
+#endif
+        glb_mem_cache_hog[start_point*2*MB] = (char)(i*new_no_req);
         start_point=(start_point+1)%(2*glb_no_of_ways);
     }
 }
@@ -101,7 +104,7 @@ void global_init(int argc, char *argv[]){
     glb_no_of_hot_ways=0;
     glb_running_event_no=0;
     glb_bw_running_event_no=-1;
-    while(-1 != (opt = getopt(argc, argv, "s:w:n:b:t:c:f:"))){
+    while(-1 != (opt = getopt(argc, argv, "s:w:n:b:t:c:f:i:"))){
         switch(opt) {
             case 's':
                 glb_cache_size = atoi(optarg);
@@ -117,6 +120,9 @@ void global_init(int argc, char *argv[]){
                 break;
             case 't':
                 glb_nthreads = atoi(optarg);
+                break;
+            case 'i':
+                glb_interval = atol(optarg);
                 break;
             case 'c':
                 glb_target_cpus = optarg;
@@ -189,7 +195,7 @@ int main(int argc, char *argv[]){
 
     //PAPI counters
     long long value[5]={0, 0, 0, 0, 0};
-    int array[5]={PAPI_L3_TCM, PAPI_TOT_INS, PAPI_TOT_CYC, PAPI_L3_DCW, PAPI_L3_DCA};
+    int array[5]={PAPI_L3_TCW, PAPI_TOT_INS, PAPI_TOT_CYC, PAPI_L3_DCW, PAPI_L3_DCA};
     PAPI_start_counters(array,5);
 
     //Call global init
@@ -221,17 +227,17 @@ int main(int argc, char *argv[]){
         exit(-1);
     }
     do {
-        sleep(1);
+        // usleep is in micro sec, input is in milisecond
+        usleep(1000*glb_interval);
         PAPI_read_counters(value, 5);
 #ifdef COUNTERS
-        printf("CPI: %f   L3 data cache store attempt: %ld   L3 cache miss: %ld\n" \
+        printf("CPI: %f   L3 data cache writes: %ld   L3 cache writes: %ld\n" \
                 "   L3 data cache access: %ld   No of instructions: %ld\n",
                 (float)value[2]/(float)value[1], value[3], value[0], value[4], value[1]);
 #endif
         glb_running_event_no = (glb_running_event_no+1) % glb_total_events;
         glb_no_of_hot_ways = glb_events[MEM][glb_running_event_no];
         glb_no_of_bw_req = glb_events[BW][glb_running_event_no];
-        PAPI_read_counters(value, 5);
     } while(waitpid(forkretval, &statusint, WNOHANG)==0);
 
     glb_pthread_exit_status=1;
