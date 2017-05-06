@@ -20,13 +20,17 @@ echo $nr_hugepages > /proc/sys/vm/nr_hugepages
 echo "***new hugepages values***"
 grep -i hugepages /proc/meminfo
 rm -f cbpirate
-gcc -O0 cbpirate.c -o cbpirate -lpapi
+gcc -O0 cbpirate.c -o cbpirate -lpapi -lpthread
 echo $no_of_ways
 echo $sizenum
 echo $no_of_sets
 LD_LIBRARY_PATH=/usr/local/lib taskset -c 2,3 ./cbpirate -s $sizenum -w $no_of_ways -n $no_of_sets \
-                                          -b $block_size &
-sleep 1
-echo "***new hugepages values***"
-grep -i hugepages /proc/meminfo
-ps -eF|grep cbpirate
+                                          -f mm_bw.txt \
+                                          -c 0,1 \
+                                          -b $block_size -t 1 \
+                                          sleep 100
+
+# sleep 1
+# echo "***new hugepages values***"
+# grep -i hugepages /proc/meminfo
+# ps -eF|grep cbpirate
