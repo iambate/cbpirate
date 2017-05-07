@@ -13,9 +13,9 @@
 #define BW 1
 
 // Printing as per the flags
-#define DEBUG 0
-#define DEBUGV 0
-#define COUNTERS 0
+//#define DEBUG
+//#define DEBUGV
+//#define COUNTERS
 
 // Global variables
 // TODO: many variables are global. Keep only need.

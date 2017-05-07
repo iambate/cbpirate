@@ -29,7 +29,7 @@ LD_LIBRARY_PATH=/usr/local/lib taskset -c 2,3 ./cbpirate -s $sizenum -w $no_of_w
                                           -f mm_bw.txt \
                                           -c 0,1 \
                                           -b $block_size -t 4 \
-                                          sleep 100
+                                          $@
 
 # sleep 1
 # echo "***new hugepages values***"
