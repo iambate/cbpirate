@@ -8,10 +8,8 @@
 using namespace std;
 
 #define INFINITY 99999
-#define MATRIX_SIZE 16
-#define BASE_SIZE 4
 
-int print_matrix(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
+int print_matrix(int **d)
 {
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
 		for (int j = 0; j < MATRIX_SIZE; j++)	{
@@ -21,7 +19,7 @@ int print_matrix(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
 	}
 	return 0;	
 }
-int check_matrix(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int (&d)[MATRIX_SIZE][MATRIX_SIZE])
+int check_matrix(int **c, int **d) 
 {
 	int op = 1;
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
@@ -34,7 +32,7 @@ int check_matrix(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int (&d)[MATRIX_SIZE][MATRI
 	return op;
 }
 
-int serial(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
+int serial(int **d)
 {
         for (int i = 0; i < MATRIX_SIZE; i++)
                 for (int j = i + 2; j < MATRIX_SIZE; j++)
@@ -46,9 +44,13 @@ int serial(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
 
 int main()
 {
-	int c[MATRIX_SIZE][MATRIX_SIZE];
-	int d[MATRIX_SIZE][MATRIX_SIZE];
+	int *c[MATRIX_SIZE];
+	int *d[MATRIX_SIZE];
 	
+    for(int i = 0; i < MATRIX_SIZE; i++) {
+        c[i] = (int *)malloc(sizeof(int)*MATRIX_SIZE);
+        d[i] = (int *)malloc(sizeof(int)*MATRIX_SIZE);
+    }
 	// initializing matrix
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
 		for (int j = 0; j < MATRIX_SIZE; j++)	{
@@ -79,5 +81,9 @@ int main()
 	
 	//print_matrix(c);
 	//print_matrix(d);
+    for(int i = 0; i < MATRIX_SIZE; i++) {
+        free(c[i]);
+        free(d[i]);
+    }
 	return 0;
 }

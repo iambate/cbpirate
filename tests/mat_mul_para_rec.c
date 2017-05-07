@@ -9,7 +9,7 @@
 using namespace std;
 
 struct matrix{
-	int *mat[MATRIX_SIZE];
+	int **mat;
 	int start_row;
 	int start_col;
 	int end_row;

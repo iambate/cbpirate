@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include<papi.h>
 #include<pthread.h>
 #include<stdio.h>
@@ -46,6 +47,10 @@ void bw_req(int no_of_bw_req, int no_warm_req){
 
 void* change_bw(void *tno) {
     int this_thread_no = *(int *)tno;
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(3, &cpuset);
+    sched_setaffinity(0, sizeof(cpuset), &cpuset);
     while(glb_pthread_exit_status==0) {
         if(glb_bw_running_event_no!=glb_running_event_no) {
 #ifdef DEBUGV
@@ -61,6 +66,11 @@ void* keep_cache_hot(void *tno){
 
     int index, tmp_no_of_hot_ways;
     int this_thread_no = *(int *)tno;
+    int cpu_no = 2 + this_thread_no % 2;
+    cpu_set_t cpuset;
+    CPU_ZERO(&cpuset);
+    CPU_SET(cpu_no, &cpuset);
+    sched_setaffinity(0, sizeof(cpuset), &cpuset);
 
     // 1st line in cache of every way will be handle by bw_req
     int starting_i = (this_thread_no == 0)?1:0;

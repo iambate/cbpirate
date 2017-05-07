@@ -8,10 +8,8 @@
 using namespace std;
 
 #define INFINITY 99999
-#define MATRIX_SIZE 16
-#define BASE_SIZE 4
 
-int print_matrix(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
+int print_matrix(int **d)
 {
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
 		for (int j = 0; j < MATRIX_SIZE; j++)	{
@@ -21,7 +19,7 @@ int print_matrix(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
 	}
 	return 0;	
 }
-int check_matrix(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int (&d)[MATRIX_SIZE][MATRIX_SIZE])
+int check_matrix(int **c, int **d)
 {
 	int op = 1;
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
@@ -34,7 +32,7 @@ int check_matrix(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int (&d)[MATRIX_SIZE][MATRI
 	return op;
 }
 
-int serial(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
+int serial(int **d)
 {
         for (int i = 0; i < MATRIX_SIZE; i++)
                 for (int j = i + 2; j < MATRIX_SIZE; j++)
@@ -44,7 +42,7 @@ int serial(int (&d)[MATRIX_SIZE][MATRIX_SIZE])
 	return 0;
 }
 
-int base_matrix_operation(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int start_i , int start_j, int n)
+int base_matrix_operation(int **c, int start_i , int start_j, int n)
 {
 	for (int i = start_i; i < start_i + n-1; i++)
 		for (int j = i + 2; j < n; j++)
@@ -53,7 +51,7 @@ int base_matrix_operation(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int start_i , int 
 	return 0;
 }
 
-int C(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int i, int j, int u_i, int u_j, int v_i, int v_j, int n)
+int C(int **c, int i, int j, int u_i, int u_j, int v_i, int v_j, int n)
 {
 	if (n <= BASE_SIZE)	{
 		for (int a = 0; a < n; a++)	{
@@ -80,7 +78,7 @@ int C(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int i, int j, int u_i, int u_j, int v_
 	return 0;
 }
 
-int B(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int i, int j, int u_i, int u_j, int v_i, int v_j, int n)
+int B(int **c, int i, int j, int u_i, int u_j, int v_i, int v_j, int n)
 {
 	if (n <= BASE_SIZE)	{
 		//base_matrix_operation(c, i, j, n);
@@ -122,7 +120,7 @@ int B(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int i, int j, int u_i, int u_j, int v_
 }
 
 // dividing function
-int A(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int i, int j, int n)
+int A(int **c, int i, int j, int n)
 {
 	if (n <= BASE_SIZE)	{
 		for (int t = 2; t < n; t++)	{
@@ -146,9 +144,13 @@ int A(int (&c)[MATRIX_SIZE][MATRIX_SIZE], int i, int j, int n)
 
 int main()
 {
-	int c[MATRIX_SIZE][MATRIX_SIZE];
-	int d[MATRIX_SIZE][MATRIX_SIZE];
+	int *c[MATRIX_SIZE];
+	int *d[MATRIX_SIZE];
 	
+    for(int i=0; i< MATRIX_SIZE; i++) {
+        c[i] = (int *)malloc(sizeof(int)*MATRIX_SIZE);
+        d[i] = (int *)malloc(sizeof(int)*MATRIX_SIZE);
+    }
 	// initializing matrix
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
 		for (int j = 0; j < MATRIX_SIZE; j++)	{
@@ -178,5 +180,9 @@ int main()
 	
 	//print_matrix(c);
 	//print_matrix(d);
+    for(int i=0; i< MATRIX_SIZE; i++) {
+        free(c[i]);
+        free(d[i]);
+    }
 	return 0;
 }
