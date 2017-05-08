@@ -4,8 +4,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include<sys/time.h>
 
-#define MATRIX_SIZE 8
+#define MATRIX_SIZE 512
 #define BASE_SIZE 2
 
 using namespace std;
@@ -164,7 +165,11 @@ for (int i = 0; i <= m; i++)	{
 	cout << endl;
 }
 */
+struct timeval start_time,end_time;
+gettimeofday(&start_time,NULL);
 AGap(x, y, n, 1, 1);
+gettimeofday(&end_time, NULL);
+cout << (end_time.tv_sec+(double)end_time.tv_usec/1000000) - (start_time.tv_sec+(double)start_time.tv_usec/1000000)  << endl;
 
 cout << dist[m-1][n-1] << " is the distance between the two strings" << endl;
 

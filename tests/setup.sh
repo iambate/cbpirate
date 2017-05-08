@@ -39,8 +39,8 @@ do
     #taskset -c 0,1 $THIS_DIR/parenthesis_rec > $THIS_DIR/outputs/parenthesis_rec.wocbpirate.$i.out
     #$THIS_DIR/../runcbpirate.sh $THIS_DIR/parenthesis_rec > $THIS_DIR/outputs/parenthesis_rec.withcbpirate.$i.out
 
-    taskset -c 0,1 $THIS_DIR/rand_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-rand-out.txt > $THIS_DIR/outputs/ca-AstroPh-rand.wocbpirate.$i.out
-    $THIS_DIR/../runcbpirate.sh $THIS_DIR/rand_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-rand-out.txt > $THIS_DIR/outputs/ca-AstroPh-rand.$i.withcbpirate.out
-    taskset -c 0,1 $THIS_DIR/det_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-det-out.txt > $THIS_DIR/outputs/ca-AstroPh-det.wocbpirate.$i.out
-    $THIS_DIR/../runcbpirate.sh $THIS_DIR/det_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-det-out.txt > $THIS_DIR/outputs/ca-AstroPh-det.withcbpirate.$i.out
+    #taskset -c 0,1 $THIS_DIR/rand_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-rand-out.txt > $THIS_DIR/outputs/ca-AstroPh-rand.wocbpirate.$i.out
+    #$THIS_DIR/../runcbpirate.sh $THIS_DIR/rand_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-rand-out.txt > $THIS_DIR/outputs/ca-AstroPh-rand.$i.withcbpirate.out
+    #taskset -c 0,1 $THIS_DIR/det_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-det-out.txt > $THIS_DIR/outputs/ca-AstroPh-det.wocbpirate.$i.out
+    #$THIS_DIR/../runcbpirate.sh $THIS_DIR/det_par_cc $THIS_DIR/ca-AstroPh-in.txt $THIS_DIR/ca-AstroPh-det-out.txt > $THIS_DIR/outputs/ca-AstroPh-det.withcbpirate.$i.out
 done

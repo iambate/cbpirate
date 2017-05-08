@@ -4,8 +4,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
-#define MATRIX_SIZE 8
+#include<sys/time.h>
 
 using namespace std;
 
@@ -72,7 +71,11 @@ for (int i = 0; i <= m; i++)	{
 	cout << endl;
 }
 */
+struct timeval start_time,end_time;
+gettimeofday(&start_time,NULL);
 LoopGap(dist, x, y, m, n);
+gettimeofday(&end_time, NULL);
+cout << (end_time.tv_sec+(double)end_time.tv_usec/1000000) - (start_time.tv_sec+(double)start_time.tv_usec/1000000)  << endl;
 
 cout << dist[m-1][n-1] + 1 << " is the distance between the two strings" << endl;
 

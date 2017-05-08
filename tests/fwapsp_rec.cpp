@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include<cilk/cilk.h>
 #include <fstream>
+#include<sys/time.h>
 
-#define MATRIX_SIZE 16
-#define BASE_SIZE 2
+#define MATRIX_SIZE 512
+#define BASE_SIZE 4
 
 using namespace std;
 
@@ -173,23 +174,28 @@ int main()
 		//if (x == y)
 		//	dist[x][y] = dist[y][x] = 0;
 	}
-	
+	/*	
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
 		for (int j = 0; j < MATRIX_SIZE; j++)	{
 			cout << dist[i][j] << " ";
 		}
 		cout << endl;
 	}
-	
+        */
+	struct timeval start_time,end_time;
+        gettimeofday(&start_time,NULL);
 	FWA(dist, MATRIX_SIZE, 0, 0);
+        gettimeofday(&end_time, NULL);
+        cout << (end_time.tv_sec+(double)end_time.tv_usec/1000000) - (start_time.tv_sec+(double)start_time.tv_usec/1000000)  << endl;	
 
+	/*
 	for (int i = 0; i < MATRIX_SIZE; i++)	{
 		for (int j = 0; j < MATRIX_SIZE; j++)	{
 			cout << dist[i][j] << " ";
 		}
 		cout << endl;
 	}
-
+	*/
 	return 0;
 
 }
