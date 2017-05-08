@@ -31,7 +31,7 @@ echo $no_of_ways
 echo $sizenum
 echo $no_of_sets
 LD_LIBRARY_PATH=/usr/local/lib taskset -c 2,3 $THIS_DIR/cbpirate -s $sizenum -w $no_of_ways -n $no_of_sets \
-                                          -i 1000 \
+                                          -i 400 \
                                           -f $CB_FILE \
                                           -c 0,1 \
                                           -b $block_size -t 4 \
